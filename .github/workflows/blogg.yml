@@ -27,7 +27,7 @@ jobs:
         id: changedFiles
         uses: futuratrepadeira/changed-files@v3.0.0
         with:
-          repo-token: ${{ github.token }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           pattern: '^.*\.(md|markdown)$'
       - run: echo "Created ${{ steps.changedFiles.outputs.files_created }}"
       - run: echo "Deleted ${{ steps.changedFiles.outputs.files_deleted }}"
