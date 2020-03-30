@@ -8,7 +8,7 @@ try {
   if (payload.created) console.log("Created files");
   if (payload.deleted) console.log("Deleted files");
   
-  createFile(authToken, payload);
+//   createFile(authToken, payload);
 
   //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
