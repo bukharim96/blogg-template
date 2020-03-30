@@ -13,17 +13,15 @@ try {
     path: `build/${username}.first-post.html`,
     // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
     message: "[NEW POST]",
-    content: Buffer.from(`<!-- dummy post -->`).toString(
-      "base64"
-    )
+    content: Buffer.from(`<!-- dummy post -->`).toString("base64")
   };
 
   octokit.repos.createOrUpdateFile(commitData);
 
   //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2);
-  console.log(`The event payload: ${payload}`);
+  const payloadData = JSON.stringify(payload, undefined, 2);
+  console.log(`The event payload: ${payloadData}`);
 } catch (error) {
   core.setFailed(error.message);
 }
