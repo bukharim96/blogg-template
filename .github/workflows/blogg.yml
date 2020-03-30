@@ -4,6 +4,8 @@
 name: My Blogg Workflow
 
 on:
+  commit:
+    branches: [master]
   push:
     branches: [master]
   pull_request:
@@ -22,4 +24,3 @@ jobs:
         id: postManager
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm run build
