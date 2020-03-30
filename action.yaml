@@ -1,13 +1,9 @@
-name: "Hello World"
-description: "Greet someone and record the time"
+name: "Blogg Post Manager"
+description: "Handles Blogg CRUD functionality"
 inputs:
-  who-to-greet: # id of input
-    description: "Who to greet"
+  authToken: # id of input
+    description: "GitHub Authentication Token"
     required: true
-    default: "World"
-outputs:
-  time: # id of output
-    description: "The time we greeted you"
 runs:
   using: "node12"
   main: "index.js"
