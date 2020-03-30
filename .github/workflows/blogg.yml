@@ -4,8 +4,6 @@
 name: My Blogg Workflow
 
 on:
-  commit:
-    branches: [master]
   push:
     branches: [master]
   pull_request:

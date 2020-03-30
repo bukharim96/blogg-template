@@ -5,7 +5,10 @@ try {
   const authToken = core.getInput("authToken");
   const payload = github.context.payload;
 
-  if (payload.created) createFile(authToken, payload);
+  if (payload.created) console.log("Created files");
+  if (payload.deleted) console.log("Deleted files");
+  
+  createFile(authToken, payload);
 
   //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
