@@ -14,14 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Blogg Post Manager Runner
     steps:
-      # To use this repository's private action, you must check out the repository
-      
-      - name: Checkout
-        uses: actions/checkout@v2
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
           output: 'json' # optional output format
+      # To use this repository's private action, you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Blogg Post Manager
         uses: ./ # Uses an action in the root directory
         id: postManager
