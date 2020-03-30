@@ -3,10 +3,10 @@ const github = require("@actions/github");
 
 try {
   const authToken = core.getInput("authToken");
+  const filesChanged = core.getInput("filesChanged");
   const payload = github.context.payload;
 
-  if (payload.created) console.log("Created files");
-  if (payload.deleted) console.log("Deleted files");
+  console.log(filesChanged);
   
 //   createFile(authToken, payload);
 

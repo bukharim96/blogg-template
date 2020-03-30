@@ -18,13 +18,13 @@ jobs:
       
       - name: Checkout
         uses: actions/checkout@v2
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
+        with:
+          output: 'json' # optional output format
       - name: Blogg Post Manager
         uses: ./ # Uses an action in the root directory
         id: postManager
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
-      - id: file_changes
-        uses: trilom/file-changes-action@v1.2.3
-        with:
-          output: 'json' # optional output format
-      - run: echo "${{ steps.file_changes.outputs }}"
+          filesChanged: steps.file_changes.outputs
