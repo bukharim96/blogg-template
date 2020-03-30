@@ -1,14 +1,28 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+const core = require("@actions/core");
+const github = require("@actions/github");
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
+  const authToken = core.getInput("authToken");
+  const octokit = new github.GitHub(authToken);
+  const payload = github.context.payload;
+  const username = payload.head_commit.author.username;
+  const repo = payload.repository.name;
+  const commitData = {
+    owner: username,
+    repo: repo,
+    path: `build/${username}.first-post.html`,
+    // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
+    message: "[NEW POST]",
+    content: Buffer.from(`<!-- dummy post -->`).toString(
+      "base64"
+    )
+  };
+
+  octokit.repos.createOrUpdateFile(commitData);
+
+  //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
+  const payload = JSON.stringify(github.context.payload, undefined, 2);
   console.log(`The event payload: ${payload}`);
 } catch (error) {
   core.setFailed(error.message);
