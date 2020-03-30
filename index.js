@@ -3,7 +3,6 @@ const github = require("@actions/github");
 
 try {
   const authToken = core.getInput("authToken");
-  const octokit = new github.GitHub(authToken);
   const payload = github.context.payload;
 
   if (payload.created) createFile(authToken, payload);
@@ -17,6 +16,7 @@ try {
 }
 
 function createFile(authToken, payload) {
+  const octokit = new github.GitHub(authToken);
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
   const commitData = {
