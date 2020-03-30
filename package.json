@@ -1,0 +1,24 @@
+{
+  "name": "blogg-template",
+  "version": "0.1.0",
+  "description": "CRUD Actions for Blogg",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bukharim96/blogg-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bukharim96/blogg-template/issues"
+  },
+  "homepage": "https://github.com/bukharim96/blogg-template#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1"
+  }
+}
