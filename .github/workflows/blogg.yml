@@ -23,11 +23,8 @@ jobs:
         id: postManager
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
-      - name: Changed Files Exporter
-        id: changedFiles
-        uses: futuratrepadeira/changed-files@v3.0.0
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: '^.*\.(md|markdown)$'
-      - run: echo "Created ${{ steps.changedFiles.outputs.files_created }}"
-      - run: echo "Deleted ${{ steps.changedFiles.outputs.files_deleted }}"
+          output: 'json' # optional output format
+      - run: echo "${{ steps.file_changes.outputs }}"
