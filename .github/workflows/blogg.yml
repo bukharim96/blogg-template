@@ -22,3 +22,4 @@ jobs:
         id: postManager
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run build

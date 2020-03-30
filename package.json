@@ -4,7 +4,8 @@
   "description": "CRUD Actions for Blogg",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./scripts/build.js"
   },
   "repository": {
     "type": "git",
