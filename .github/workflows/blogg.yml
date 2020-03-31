@@ -18,10 +18,10 @@ jobs:
       #   uses: trilom/file-changes-action@v1.2.3
       #   with:
       #     output: "json" # optional output format
-      - uses: lots0logs/gh-action-get-changed-files@2.0.6
-        id: changed_files_actions
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: lots0logs/gh-action-get-changed-files@2.0.6
+      #   id: changed_files_actions
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Blogg Post Manager
@@ -29,7 +29,7 @@ jobs:
         id: postManager
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files_added: ${{ steps.changed_files_actions.outputs.added }} # Added files
-          files_deleted: ${{ steps.changed_files_actions.outputs.deleted }} # Deleted files
-          files_renamed: ${{ steps.changed_files_actions.outputs.renamed }} # Renamed files
-          files_modified: ${{ steps.changed_files_actions.outputs.modified }} # Modified files
+          # files_added: ${{ steps.changed_files_actions.outputs.added }} # Added files
+          # files_deleted: ${{ steps.changed_files_actions.outputs.deleted }} # Deleted files
+          # files_renamed: ${{ steps.changed_files_actions.outputs.renamed }} # Renamed files
+          # files_modified: ${{ steps.changed_files_actions.outputs.modified }} # Modified files

@@ -15,7 +15,7 @@ try {
   // console.log(`filesRenamed: ${filesRenamed}`);
   // console.log(`filesModified: ${filesModified}`);
 
-  console.log(JSON.stringify(getChangedFiles()));
+  console.log(JSON.stringify(getChangedFiles(), undefined, 2));
 
   //   createFile(githubToken, payload);
 

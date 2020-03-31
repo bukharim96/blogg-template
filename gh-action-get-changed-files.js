@@ -80,10 +80,10 @@ module.exports = function getChangedFiles() {
   });
 
   return {
-	FILES,
-	FILES_MODIFIED,
-	FILES_ADDED,
-	FILES_DELETED,
-	FILES_RENAMED
+	files: FILES,
+	filesModified: FILES_MODIFIED,
+	filesAdded: FILES_ADDED,
+	filesDeleted: FILES_DELETED,
+	filesRenamed: FILES_RENAMED
   };
 }
