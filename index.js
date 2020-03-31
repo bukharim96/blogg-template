@@ -2,17 +2,17 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 
 try {
-  const authToken = core.getInput("authToken");
-  const filesAdded = core.getInput("filesAdded");
-  const filesModified = core.getInput("filesModified");
-  const filesRemoved = core.getInput("filesRemoved");
+  const githubToken = core.getInput("github_token");
+  const filesAdded = core.getInput("files_added");
+  const filesModified = core.getInput("files_modified");
+  const filesRemoved = core.getInput("files_removed");
   const payload = github.context.payload;
 
-  console.log(`filesAdded: ${filesAdded}`);
-  console.log(`filesModified: ${filesModified}`);
-  console.log(`filesRemoved: ${filesRemoved}`);
+  if (filesAdded) console.log(`filesAdded: ${filesAdded}`);
+  if (filesModified) console.log(`filesModified: ${filesModified}`);
+  if (filesRemoved) console.log(`filesRemoved: ${filesRemoved}`);
   
-//   createFile(authToken, payload);
+//   createFile(githubToken, payload);
 
   //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
@@ -22,8 +22,8 @@ try {
   core.setFailed(error.message);
 }
 
-function createFile(authToken, payload) {
-  const octokit = new github.GitHub(authToken);
+function createFile(githubToken, payload) {
+  const octokit = new github.GitHub(githubToken);
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
   const commitData = {
