@@ -1,6 +1,6 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
-const getChangedFiles = require("./getChangedFiles");
+const { getChangedFiles } = require("./getChangedFiles");
 
 try {
   const payload = github.context.payload;
