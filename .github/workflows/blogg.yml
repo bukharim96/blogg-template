@@ -17,6 +17,7 @@ jobs:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           output: "json" # optional output format
       - name: Checkout
         uses: actions/checkout@v2
