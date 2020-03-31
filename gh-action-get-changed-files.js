@@ -53,7 +53,7 @@ async function processCommit(commit) {
   }
 }
 
-function getChangedFiles() {
+module.exports = function getChangedFiles() {
   Promise.all(commits.map(processCommit)).then(() => {
     // process.stdout.write(`::debug::${JSON.stringify(FILES, 4)}`);
     // process.stdout.write(`::set-output name=all::${JSON.stringify(FILES, 4)}`);
