@@ -1,27 +1,22 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
-const { getChangedFiles } = require("./getChangedFiles");
 
 try {
-  const payload = github.context.payload;
   const githubToken = core.getInput("github_token");
-  // const filesAdded = core.getInput("files_added");
-  // const filesDeleted = core.getInput("files_deleted");
-  // const filesRenamed = core.getInput("files_renamed");
-  // const filesModified = core.getInput("files_modified");
+  const filesAdded = core.getInput("files_added");
+  const filesModified = core.getInput("files_modified");
+  const filesRemoved = core.getInput("files_removed");
+  const payload = github.context.payload;
 
-  // console.log(`filesAdded: ${filesAdded}`);
-  // console.log(`filesDeleted: ${filesDeleted}`);
-  // console.log(`filesRenamed: ${filesRenamed}`);
-  // console.log(`filesModified: ${filesModified}`);
-
-  console.log(JSON.stringify(getChangedFiles(), undefined, 2));
-
-  //   createFile(githubToken, payload);
+  console.log(`filesAdded: ${filesAdded}`);
+  console.log(`filesModified: ${filesModified}`);
+  console.log(`filesRemoved: ${filesRemoved}`);
+  
+//   createFile(githubToken, payload);
 
   //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
-  const payloadData = JSON.stringify(payload.pull_request, undefined, 2);
+  const payloadData = JSON.stringify(github, undefined, 2);
   console.log(`The event payload: ${payloadData}`);
 } catch (error) {
   core.setFailed(error.message);
