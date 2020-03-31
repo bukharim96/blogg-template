@@ -29,7 +29,7 @@ jobs:
         id: postManager
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files_added: ${{ steps.file_changes.outputs.added }} # Added files
-          files_deleted: ${{ steps.file_changes.outputs.deleted }} # Deleted files
-          files_renamed: ${{ steps.file_changes.outputs.renamed }} # Renamed files
-          files_modified: ${{ steps.file_changes.outputs.modified }} # Modified files
+          files_added: ${{ steps.changed_files_actions.outputs.added }} # Added files
+          files_deleted: ${{ steps.changed_files_actions.outputs.deleted }} # Deleted files
+          files_renamed: ${{ steps.changed_files_actions.outputs.renamed }} # Renamed files
+          files_modified: ${{ steps.changed_files_actions.outputs.modified }} # Modified files
