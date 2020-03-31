@@ -21,7 +21,7 @@ try {
 
   //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
-  const payloadData = JSON.stringify(github, undefined, 2);
+  const payloadData = JSON.stringify(payload.pull_request, undefined, 2);
   console.log(`The event payload: ${payloadData}`);
 } catch (error) {
   core.setFailed(error.message);
