@@ -18,12 +18,13 @@ jobs:
       #   uses: trilom/file-changes-action@v1.2.3
       #   with:
       #     output: "json" # optional output format
-      - uses: lots0logs/gh-action-get-changed-files@2.0.6
+      - name: Checkout
+        uses: actions/checkout@v2
+      # - uses: lots0logs/gh-action-get-changed-files@2.0.6
+      - uses: ./gh-action-get-changed-files.js
         id: changed_files_actions
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Blogg Post Manager
         uses: ./ # Uses an action in the root directory
         id: postManager
