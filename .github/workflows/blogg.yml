@@ -14,11 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     name: Blogg Post Manager Runner
     steps:
-      - id: file_changes
-        uses: trilom/file-changes-action@v1.2.3
+      # - id: file_changes
+      #   uses: trilom/file-changes-action@v1.2.3
+      #   with:
+      #     output: "json" # optional output format
+      - uses: lots0logs/gh-action-get-changed-files@2.0.6
+        id: changed_files_actions
         with:
-          output: "json" # optional output format
-      # To use this repository's private action, you must check out the repository
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Blogg Post Manager
@@ -26,6 +29,7 @@ jobs:
         id: postManager
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          files_added: ${{ steps.file_changes.outputs.files_added }}
-          files_modified: ${{ steps.file_changes.outputs.files_modified }}
-          files_removed: ${{ steps.file_changes.outputs.files_removed }}
+          files_added: ${{ steps.file_changes.outputs.added }} # Added files
+          files_deleted: ${{ steps.file_changes.outputs.deleted }} # Deleted files
+          files_renamed: ${{ steps.file_changes.outputs.renamed }} # Renamed files
+          files_modified: ${{ steps.file_changes.outputs.modified }} # Modified files

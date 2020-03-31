@@ -2,15 +2,17 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 
 try {
+  const payload = github.context.payload;
   const githubToken = core.getInput("github_token");
   const filesAdded = core.getInput("files_added");
+  const filesDeleted = core.getInput("files_deleted");
+  const filesRenamed = core.getInput("files_renamed");
   const filesModified = core.getInput("files_modified");
-  const filesRemoved = core.getInput("files_removed");
-  const payload = github.context.payload;
 
   console.log(`filesAdded: ${filesAdded}`);
+  console.log(`filesDeleted: ${filesDeleted}`);
+  console.log(`filesRenamed: ${filesRenamed}`);
   console.log(`filesModified: ${filesModified}`);
-  console.log(`filesRemoved: ${filesRemoved}`);
   
 //   createFile(githubToken, payload);
 
