@@ -48,7 +48,7 @@ async function getChangedFiles(client, prNumber, fileCount) {
 async function getChangedFiles() {
   try {
     const token = core.getInput("repo-token", { required: true });
-    const client = new github.GitHub(token);
+    const client = core.getInput("github_token");
 
     const pr = github.context.payload.pull_request;
     if (!pr) {
