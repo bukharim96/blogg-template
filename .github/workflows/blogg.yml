@@ -13,19 +13,19 @@ jobs:
   blogg_post_runner:
     runs-on: ubuntu-latest
     name: Blogg Post Manager Runner
-steps:
-  - id: file_changes
-    uses: trilom/file-changes-action@v1.2.3
-    with:
-      output: 'json' # optional output format
-  # To use this repository's private action, you must check out the repository
-  - name: Checkout
-    uses: actions/checkout@v2
-  - name: Blogg Post Manager
-    uses: ./ # Uses an action in the root directory
-    id: postManager
-    with:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-      files_added: ${{ steps.file_changes.outputs.files_added }}
-      files_modified: ${{ steps.file_changes.outputs.files_modified }}
-      files_removed: ${{ steps.file_changes.outputs.files_removed }}
+    steps:
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
+        with:
+          output: "json" # optional output format
+      # To use this repository's private action, you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Blogg Post Manager
+        uses: ./ # Uses an action in the root directory
+        id: postManager
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          files_added: ${{ steps.file_changes.outputs.files_added }}
+          files_modified: ${{ steps.file_changes.outputs.files_modified }}
+          files_removed: ${{ steps.file_changes.outputs.files_removed }}

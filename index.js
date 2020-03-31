@@ -8,9 +8,9 @@ try {
   const filesRemoved = core.getInput("files_removed");
   const payload = github.context.payload;
 
-  if (filesAdded) console.log(`filesAdded: ${filesAdded}`);
-  if (filesModified) console.log(`filesModified: ${filesModified}`);
-  if (filesRemoved) console.log(`filesRemoved: ${filesRemoved}`);
+  console.log(`filesAdded: ${filesAdded}`);
+  console.log(`filesModified: ${filesModified}`);
+  console.log(`filesRemoved: ${filesRemoved}`);
   
 //   createFile(githubToken, payload);
 
