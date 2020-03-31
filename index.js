@@ -1,20 +1,23 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
+const getChangedFiles = require("./gh-action-get-changed-files");
 
 try {
   const payload = github.context.payload;
   const githubToken = core.getInput("github_token");
-  const filesAdded = core.getInput("files_added");
-  const filesDeleted = core.getInput("files_deleted");
-  const filesRenamed = core.getInput("files_renamed");
-  const filesModified = core.getInput("files_modified");
+  // const filesAdded = core.getInput("files_added");
+  // const filesDeleted = core.getInput("files_deleted");
+  // const filesRenamed = core.getInput("files_renamed");
+  // const filesModified = core.getInput("files_modified");
 
-  console.log(`filesAdded: ${filesAdded}`);
-  console.log(`filesDeleted: ${filesDeleted}`);
-  console.log(`filesRenamed: ${filesRenamed}`);
-  console.log(`filesModified: ${filesModified}`);
-  
-//   createFile(githubToken, payload);
+  // console.log(`filesAdded: ${filesAdded}`);
+  // console.log(`filesDeleted: ${filesDeleted}`);
+  // console.log(`filesRenamed: ${filesRenamed}`);
+  // console.log(`filesModified: ${filesModified}`);
+
+  console.log(JSON.stringify(getChangedFiles()));
+
+  //   createFile(githubToken, payload);
 
   //   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
