@@ -33,9 +33,4 @@ jobs:
           files_deleted: ${{ steps.changed_files_actions.outputs.deleted }} # Deleted files
           files_renamed: ${{ steps.changed_files_actions.outputs.renamed }} # Renamed files
           files_modified: ${{ steps.changed_files_actions.outputs.modified }} # Modified files
-      - run: |
-        cat ${HOME}/files.json
-        cat ${HOME}/files_modified.json
-        cat ${HOME}/files_added.json
-        cat ${HOME}/files_deleted.json
-        ```
+      - run: cat ${HOME}/files.json
