@@ -26,4 +26,6 @@ jobs:
         id: postManager
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
-          filesChanged: ${{ steps.file_changes.outputs }}
+          filesAdded: ${{ steps.file_changes.outputs.files_added }}
+          filesModified: ${{ steps.file_changes.outputs.files_modified }}
+          filesRemoved: ${{ steps.file_changes.outputs.files_removed }}
