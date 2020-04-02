@@ -54,8 +54,10 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
   }
 
   const changes = {
-    files: builtMarkup,
-    commit: "[NEW BLOGG POSTS]"
+    files: {
+      'README.md': 'Update from octokit' //Buffer.from('Content from octokit.').toString('base64')
+    },
+    commit: 'Update from octokit'
   };
 
   // push built posts
