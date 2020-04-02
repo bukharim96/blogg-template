@@ -26,11 +26,12 @@ async function run() {
 
 run();
 
+// @TODO: push multiple files in single request
 async function handleNewPosts(filesAdded, githubToken, payload) {
   const octokit = new github.GitHub(githubToken);
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
-  const builtMarkup = {};
+  const builtPosts = {};
 
   for (const i in filesAdded) {
     const filePath = filesAdded[i];
@@ -49,102 +50,103 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       .replace(/^posts\//, "")
       .replace(/\.md$/, ".html");
 
-    builtMarkup[newFilePath] = marked(content);
-    // builtMarkup[filePath] = Buffer.from(marked(content)).toString("base64");
+    builtPosts[newFilePath] = marked(content);
+    // builtPosts[filePath] = Buffer.from(marked(content)).toString("base64");
   }
 
-  const changes = {
-    files: {
-      'README.md': 'Update from octokit' //Buffer.from('Content from octokit.').toString('base64')
-    },
-    commit: 'Update from octokit'
-  };
+  for (const filePath in builtPosts) {
+    // update file
+    const content = builtPosts[filePath];
+    const commitData = {
+      owner: username,
+      repo: repo,
+      path: filePath,
+      // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
+      message: "[NEW BLOGG POST]",
+      content: Buffer.from(content).toString("base64")
+    };
 
-  // push built posts
-  push(octokit, {
-    owner: username,
-    repo: repo,
-    base: "master",
-    head: "master",
-    changes: changes
-  })
-    .then(result => {
-      console.log(result);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+    octokit.repos.createOrUpdateFile(commitData);
+  }
 
-  // update file
-  // const commitData = {
-  //   owner: username,
-  //   repo: repo,
-  //   path: `build/${username}.third-post.html`,
-  //   // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
-  //   message: "[NEW POST]",
-  //   content: Buffer.from(`<!-- dummy post -->`).toString("base64")
+  // const changes = {
+  //   files: builtPosts,
+  //   commit: "[NEW BLOGG POSTS]"
   // };
 
-  // octokit.repos.createOrUpdateFile(commitData);
-}
-
-async function push(octokit, { owner, repo, base, head, changes }) {
-  let response;
-
-  if (!base) {
-    response = await octokit.repos.get({ owner, repo });
-    // tslint:disable-next-line:no-parameter-reassignment
-    base = response.data.default_branch;
-  }
-
-  response = await octokit.repos.listCommits({
-    owner,
-    repo,
-    sha: base,
-    per_page: 1
-  });
-  let latestCommitSha = response.data[0].sha;
-  const treeSha = response.data[0].commit.tree.sha;
-
-  response = await octokit.git.createTree({
-    owner,
-    repo,
-    base_tree: treeSha,
-    tree: Object.keys(changes.files).map(path => {
-      // shut up the compiler...
-      const mode = "100644";
-      return {
-        path,
-        mode,
-        content: changes.files[path]
-      };
-    })
-  });
-  const newTreeSha = response.data.sha;
-
-  response = await octokit.git.createCommit({
-    owner,
-    repo,
-    message: changes.commit,
-    tree: newTreeSha,
-    parents: [latestCommitSha]
-  });
-  latestCommitSha = response.data.sha;
-
-  // HttpError: Reference does not exist
-  return await octokit.git.updateRef({
-    owner,
-    repo,
-    sha: latestCommitSha,
-    ref: `refs/heads/${head}`,
-    force: true
-  });
-
-  // HttpError: Reference already exists
-  // return await octokit.git.createRef({
-  //   owner,
-  //   repo,
-  //   sha: latestCommitSha,
-  //   ref: `refs/heads/${head}`
+  // // push built posts
+  // push(octokit, {
+  //   owner: username,
+  //   repo: repo,
+  //   base: "master",
+  //   head: "master",
+  //   changes: changes
   // })
+  //   .then(result => {
+  //     console.log(result);
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //   });
 }
+
+// async function push(octokit, { owner, repo, base, head, changes }) {
+//   let response;
+
+//   if (!base) {
+//     response = await octokit.repos.get({ owner, repo });
+//     // tslint:disable-next-line:no-parameter-reassignment
+//     base = response.data.default_branch;
+//   }
+
+//   response = await octokit.repos.listCommits({
+//     owner,
+//     repo,
+//     sha: base,
+//     per_page: 1
+//   });
+//   let latestCommitSha = response.data[0].sha;
+//   const treeSha = response.data[0].commit.tree.sha;
+
+//   response = await octokit.git.createTree({
+//     owner,
+//     repo,
+//     base_tree: treeSha,
+//     tree: Object.keys(changes.files).map(path => {
+//       // shut up the compiler...
+//       const mode = "100644";
+//       return {
+//         path,
+//         mode,
+//         content: changes.files[path]
+//       };
+//     })
+//   });
+//   const newTreeSha = response.data.sha;
+
+//   response = await octokit.git.createCommit({
+//     owner,
+//     repo,
+//     message: changes.commit,
+//     tree: newTreeSha,
+//     parents: [latestCommitSha]
+//   });
+//   latestCommitSha = response.data.sha;
+
+//   // HttpError: Reference does not exist
+//   return await octokit.git.updateRef({
+//     owner,
+//     repo,
+//     sha: latestCommitSha,
+//     ref: `refs/heads/${head}`,
+//     force: true
+//   });
+
+//   // HttpError: Reference already exists
+//   // return await octokit.git.createRef({
+//   //   owner,
+//   //   repo,
+//   //   sha: latestCommitSha,
+//   //   ref: `refs/heads/${head}`
+//   // })
+// }
