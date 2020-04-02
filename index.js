@@ -56,7 +56,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       builtPosts[newFilePath] = Buffer.from(marked(content)).toString("base64");
     }
 
-    return builtPosts;
+    return new Promise(builtPosts);
   }).then(builtPosts => {
     console.log(builtPosts);
 
