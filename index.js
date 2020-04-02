@@ -57,7 +57,9 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
     // builtPosts[newFilePath] = newContent;
 
-    await fs.writeFile(newFilePath, builtContent);
+    fs.writeFile(newFilePath, builtContent).catch(e =>
+      core.setFailed(e.message)
+    );
   }
 
   // // Returns a normal Octokit PR response
