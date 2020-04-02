@@ -12,7 +12,8 @@ async function run() {
     const filesRemoved = JSON.parse(core.getInput("files_removed"));
     const payload = github.context.payload;
 
-    if (filesAdded.length) handleNewPosts(filesAdded, githubToken, payload);
+    if (filesAdded.length)
+      await handleNewPosts(filesAdded, githubToken, payload);
     // if (filesModified.length)
     // if (filesRemoved.length)
 
@@ -28,7 +29,7 @@ async function run() {
 run();
 
 // @TODO: push multiple files in single request
-function handleNewPosts(filesAdded, githubToken, payload) {
+async function handleNewPosts(filesAdded, githubToken, payload) {
   // const octokit = new github.GitHub(githubToken);
   const CPR_Octokit = github.GitHub.plugin(createPullRequest);
   const octokit = new CPR_Octokit({
@@ -45,31 +46,16 @@ function handleNewPosts(filesAdded, githubToken, payload) {
     // skip files not in /posts/
     if (!RegExp(/^posts\//).test(filePath)) continue;
 
-    fs.readFile(`./${filePath}`)
-      .then(data => {
-        const content = data.toString();
-        const builtContent = marked(content);
-        const newContent = Buffer.from(builtContent).toString("base64");
-        const newFilePath = filePath // build/...html
-          .replace(/^posts\//, "build/")
-          .replace(/\.md$/, ".html");
-        // console.log(`    ${newFilePath}`);
-        // console.log(`    ${newContent}`);
+    const content = await fs.readFile(`./${filePath}`, "utf8");
+    const builtContent = marked(content);
+    const newContent = Buffer.from(builtContent).toString("base64");
+    const newFilePath = filePath // build/...html
+      .replace(/^posts\//, "build/")
+      .replace(/\.md$/, ".html");
+    // console.log(`    ${newFilePath}`);
+    // console.log(`    ${newContent}`);
 
-        builtPosts[newFilePath] = newContent;
-
-        // // update file
-        // const commitData = {
-        //   owner: username,
-        //   repo: repo,
-        //   path: newFilePath,
-        //   // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
-        //   message: `[NEW BLOGG POST]: ${filePath}`,
-        //   content: newContent
-        // };
-        // octokit.repos.createOrUpdateFile(commitData).catch(e => console.error(e));
-      })
-      .catch(e => console.error(e));
+    builtPosts[newFilePath] = newContent;
   }
 
   // Returns a normal Octokit PR response
@@ -91,6 +77,17 @@ function handleNewPosts(filesAdded, githubToken, payload) {
     .then(pr => console.log(pr.data.number))
     .catch(e => console.error(e));
 }
+
+// // update file
+// const commitData = {
+//   owner: username,
+//   repo: repo,
+//   path: newFilePath,
+//   // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
+//   message: `[NEW BLOGG POST]: ${filePath}`,
+//   content: newContent
+// };
+// octokit.repos.createOrUpdateFile(commitData).catch(e => console.error(e));
 
 // octokit.repos
 //   .getContents({
