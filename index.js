@@ -54,7 +54,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     builtPosts[newFilePath] = Buffer.from(marked(content)).toString("base64");
   }
 
-  for (const filePath in builtPosts) {
+  for (const filePath in Object.keys(builtPosts)) {
     // update file
     const content = builtPosts[filePath];
 
@@ -70,27 +70,29 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
     octokit.repos.createOrUpdateFile(commitData);
   }
-
-  // const changes = {
-  //   files: builtPosts,
-  //   commit: "[NEW BLOGG POSTS]"
-  // };
-
-  // // push built posts
-  // push(octokit, {
-  //   owner: username,
-  //   repo: repo,
-  //   base: "master",
-  //   head: "master",
-  //   changes: changes
-  // })
-  //   .then(result => {
-  //     console.log(result);
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //   });
 }
+
+// {
+//   // const changes = {
+//   //   files: builtPosts,
+//   //   commit: "[NEW BLOGG POSTS]"
+//   // };
+
+//   // // push built posts
+//   // push(octokit, {
+//   //   owner: username,
+//   //   repo: repo,
+//   //   base: "master",
+//   //   head: "master",
+//   //   changes: changes
+//   // })
+//   //   .then(result => {
+//   //     console.log(result);
+//   //   })
+//   //   .catch(err => {
+//   //     console.error(err);
+//   //   });
+// }
 
 // async function push(octokit, { owner, repo, base, head, changes }) {
 //   let response;
