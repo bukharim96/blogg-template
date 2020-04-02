@@ -54,7 +54,9 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     builtPosts[newFilePath] = Buffer.from(marked(content)).toString("base64");
   }
 
-  for (const filePath in Object.keys(builtPosts)) {
+  console.log(builtPosts);
+
+  for (const filePath in builtPosts) {
     // update file
     const content = builtPosts[filePath];
 
