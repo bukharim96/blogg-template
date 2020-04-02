@@ -8,7 +8,7 @@ try {
   const filesRemoved = core.getInput("files_removed");
   const payload = github.context.payload;
 
-  if (filesAdded.length) await handleNewPosts(filesAdded, githubToken, payload);
+  if (filesAdded.length) handleNewPosts(filesAdded, githubToken, payload);
   // if (filesModified.length)
   // if (filesRemoved.length)
 
