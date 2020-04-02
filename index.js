@@ -39,9 +39,9 @@ function handleNewPosts(filesAdded, githubToken, payload) {
     // skip files not in /posts/
     if (!RegExp(/^posts\//).test(filePath)) continue;
 
-    fs.readFile(`./${filePath}`).then(data => {
-      console.log(data.toString());
-    });
+    const content = (await fs.readFile(`./${filePath}`)).toString();
+
+    console.log(content);
 
     // octokit.repos
     //   .getContents({
