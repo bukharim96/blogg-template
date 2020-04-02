@@ -57,6 +57,8 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
   for (const filePath in builtPosts) {
     // update file
     const content = builtPosts[filePath];
+
+    console.log(`${filePath}: ${content}`);
     const commitData = {
       owner: username,
       repo: repo,
