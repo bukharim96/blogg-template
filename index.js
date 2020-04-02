@@ -39,7 +39,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     // skip files not in /posts/
     if (RegExp(/^posts\//).test(filePath)) continue;
 
-    octokit.repos
+    await octokit.repos
       .getContents({
         owner: username,
         repo: repo,
