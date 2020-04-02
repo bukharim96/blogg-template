@@ -35,7 +35,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
   for (const i in filesAdded) {
     const filePath = filesAdded[i];
 
-    console.log(`...reading ${filePath}`);
+    console.log(filePath);
     const result = await octokit.repos.getContents({
       owner: username,
       repo: repo,
