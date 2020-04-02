@@ -60,7 +60,24 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
   // Returns a normal Octokit PR response
   // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-  console.log(JSON.stringify(builtPosts, undefined, 2));
+  console.log(
+    JSON.stringify(
+      {
+        owner: username,
+        repo: repo,
+        title: "[NEW BLOGG POSTS]",
+        body: "pull request description",
+        base: "master" /* optional: defaults to default branch */,
+        head: "master",
+        changes: {
+          files: builtPosts,
+          commit: "[NEW BLOGG POSTS]"
+        }
+      },
+      undefined,
+      2
+    )
+  );
   octokit
     .createPullRequest({
       owner: username,
