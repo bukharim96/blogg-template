@@ -74,7 +74,7 @@ function handleNewPosts(filesAdded, githubToken, payload) {
 
   // Returns a normal Octokit PR response
   // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-  console.log(builtPosts);
+  console.log(JSON.stringify(builtPosts, undefined, 2));
   octokit
     .createPullRequest({
       owner: username,
