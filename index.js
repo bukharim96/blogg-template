@@ -10,8 +10,7 @@ async function run() {
     const filesRemoved = JSON.parse(core.getInput("files_removed"));
     const payload = github.context.payload;
 
-    if (filesAdded.length)
-      await handleNewPosts(filesAdded, githubToken, payload);
+    if (filesAdded.length) handleNewPosts(filesAdded, githubToken, payload);
     // if (filesModified.length)
     // if (filesRemoved.length)
 
@@ -27,7 +26,7 @@ async function run() {
 run();
 
 // @TODO: push multiple files in single request
-async function handleNewPosts(filesAdded, githubToken, payload) {
+function handleNewPosts(filesAdded, githubToken, payload) {
   const octokit = new github.GitHub(githubToken);
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
@@ -39,15 +38,20 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     // skip files not in /posts/
     if (RegExp(/^posts\//).test(filePath)) continue;
 
-    const result = await octokit.repos.getContents({
-      owner: username,
-      repo: repo,
-      path: filePath
-    });
+    octokit.repos
+      .getContents({
+        owner: username,
+        repo: repo,
+        path: filePath
+      })
+      .then(result => {
+        const content = Buffer.from(result.data.content, "base64").toString();
+        console.log(`    content: ${content}`);
+      });
 
     // content will be base64 encoded
     const content = Buffer.from(result.data.content, "base64").toString();
-    console.log(`    content: ${content}`)
+    console.log(`    content: ${content}`);
     // const newFilePath = filePath // build/...html
     //   .replace(/^posts\//, "build/")
     //   .replace(/\.md$/, ".html");
