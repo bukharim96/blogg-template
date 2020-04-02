@@ -47,7 +47,7 @@ function handleNewPosts(filesAdded, githubToken, payload) {
       .then(result => {
         const content = Buffer.from(result.data.content, "base64").toString();
         console.log(`    content: ${content}`);
-      });
+      }).error(e => console.log(e));
 
     // content will be base64 encoded
     const content = Buffer.from(result.data.content, "base64").toString();
