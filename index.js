@@ -60,11 +60,11 @@ function handleNewPosts(filesAdded, githubToken, payload) {
           content: newContent
         };
         octokit.repos.createOrUpdateFile(commitData).catch(e => {
-          core.setFailed(e);
+          console.log(e);
         });
       })
       .catch(e => {
-        core.setFailed(e);
+        console.log(e);
       });
 
     // octokit.repos
