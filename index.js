@@ -31,10 +31,10 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
   const octokit = new github.GitHub(githubToken);
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
-  let builtPosts = {};
 
   for (const i in filesAdded) {
     const filePath = filesAdded[i];
+    console.log(filePath);
 
     // skip files not in /posts/
     if (RegExp(/^posts\//).test(filePath)) continue;
@@ -57,16 +57,16 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
         // update file
         console.log(`${newFilePath}: ${newContent}`);
-        const commitData = {
-          owner: username,
-          repo: repo,
-          path: newFilePath,
-          // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
-          message: "[NEW BLOGG POST]",
-          content: newContent
-        };
+        // const commitData = {
+        //   owner: username,
+        //   repo: repo,
+        //   path: newFilePath,
+        //   // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
+        //   message: "[NEW BLOGG POST]",
+        //   content: newContent
+        // };
 
-        octokit.repos.createOrUpdateFile(commitData);
+        // octokit.repos.createOrUpdateFile(commitData);
       });
   }
 }
