@@ -70,25 +70,11 @@ function handleNewPosts(filesAdded, githubToken, payload) {
         // octokit.repos.createOrUpdateFile(commitData).catch(e => console.error(e));
       })
       .catch(e => console.error(e));
-
-    // octokit.repos
-    //   .getContents({
-    //     owner: username,
-    //     repo: repo,
-    //     path: filePath
-    //   })
-    //   .then(result => {
-    //     const content = Buffer.from(result.data.content, "base64").toString();
-    //     console.log(`    content: ${content}`);
-    //   }).error(e => console.log(e));
-
-    // content will be base64 encoded
-    // const content = Buffer.from(result.data.content, "base64").toString();
-    // console.log(`    content: ${content}`);
   }
 
   // Returns a normal Octokit PR response
   // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
+  console.log(builtPosts);
   octokit
     .createPullRequest({
       owner: username,
@@ -105,6 +91,21 @@ function handleNewPosts(filesAdded, githubToken, payload) {
     .then(pr => console.log(pr.data.number))
     .catch(e => console.error(e));
 }
+
+// octokit.repos
+//   .getContents({
+//     owner: username,
+//     repo: repo,
+//     path: filePath
+//   })
+//   .then(result => {
+//     const content = Buffer.from(result.data.content, "base64").toString();
+//     console.log(`    content: ${content}`);
+//   }).error(e => console.log(e));
+
+// content will be base64 encoded
+// const content = Buffer.from(result.data.content, "base64").toString();
+// console.log(`    content: ${content}`);
 
 // {
 //   // const changes = {
