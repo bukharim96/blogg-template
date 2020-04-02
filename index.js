@@ -1,6 +1,7 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const marked = require("marked");
+const { promises: fs } = require("fs");
 
 async function run() {
   try {
@@ -36,22 +37,26 @@ function handleNewPosts(filesAdded, githubToken, payload) {
     console.log(filePath);
 
     // skip files not in /posts/
-    if (RegExp(/^posts\//).test(filePath)) continue;
+    if (!RegExp(/^posts\//).test(filePath)) continue;
 
-    octokit.repos
-      .getContents({
-        owner: username,
-        repo: repo,
-        path: filePath
-      })
-      .then(result => {
-        const content = Buffer.from(result.data.content, "base64").toString();
-        console.log(`    content: ${content}`);
-      }).error(e => console.log(e));
+    fs.readFile(`./${filePath}`).then(data => {
+      console.log(data.toString());
+    });
+
+    // octokit.repos
+    //   .getContents({
+    //     owner: username,
+    //     repo: repo,
+    //     path: filePath
+    //   })
+    //   .then(result => {
+    //     const content = Buffer.from(result.data.content, "base64").toString();
+    //     console.log(`    content: ${content}`);
+    //   }).error(e => console.log(e));
 
     // content will be base64 encoded
-    const content = Buffer.from(result.data.content, "base64").toString();
-    console.log(`    content: ${content}`);
+    // const content = Buffer.from(result.data.content, "base64").toString();
+    // console.log(`    content: ${content}`);
     // const newFilePath = filePath // build/...html
     //   .replace(/^posts\//, "build/")
     //   .replace(/\.md$/, ".html");
