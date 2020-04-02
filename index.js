@@ -48,15 +48,15 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     // content will be base64 encoded
     const content = Buffer.from(result.data.content, "base64").toString();
     console.log(`    content: ${content}`)
-    const newFilePath = filePath // build/...html
-      .replace(/^posts\//, "build/")
-      .replace(/\.md$/, ".html");
+    // const newFilePath = filePath // build/...html
+    //   .replace(/^posts\//, "build/")
+    //   .replace(/\.md$/, ".html");
 
-    // builtPosts[newFilePath] = marked(content);
-    const newContent = Buffer.from(marked(content)).toString("base64");
+    // // builtPosts[newFilePath] = marked(content);
+    // const newContent = Buffer.from(marked(content)).toString("base64");
 
-    // update file
-    console.log(`${newFilePath}: ${newContent}`);
+    // // update file
+    // console.log(`${newFilePath}: ${newContent}`);
     // const commitData = {
     //   owner: username,
     //   repo: repo,
