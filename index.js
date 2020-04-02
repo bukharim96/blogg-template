@@ -48,6 +48,7 @@ function handleNewPosts(filesAdded, githubToken, payload) {
           .replace(/^posts\//, "build/")
           .replace(/\.md$/, ".html");
           console.log(`    ${newFilePath}`);
+          console.log(`    ${newContent}`);
 
         // update file
         const commitData = {
