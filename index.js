@@ -32,7 +32,9 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
   console.log(`filesAdded: ${filesAdded}`);
 
-  filesAdded.forEach(filePath => {
+  for (const i in filesAdded) {
+    const filePath = filesAdded[i];
+
     console.log(`...reading ${filePath}`);
     const result = await octokit.repos.getContents({
       owner: username,
@@ -42,7 +44,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     // content will be base64 encoded
     const content = Buffer.from(result.data.content, "base64").toString();
     console.log(`${filePath}: ${content}`);
-  }); 
+  }
 
   // update file
   // const commitData = {
