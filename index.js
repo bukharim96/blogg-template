@@ -4,9 +4,9 @@ const github = require("@actions/github");
 async function run() {
   try {
     const githubToken = core.getInput("github_token");
-    const filesAdded = core.getInput("files_added");
-    const filesModified = core.getInput("files_modified");
-    const filesRemoved = core.getInput("files_removed");
+    const filesAdded = JSON.parse(core.getInput("files_added"));
+    const filesModified = JSON.parse(core.getInput("files_modified"));
+    const filesRemoved = JSON.parse(core.getInput("files_removed"));
     const payload = github.context.payload;
 
     if (filesAdded.length)
