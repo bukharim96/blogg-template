@@ -57,7 +57,9 @@ function handleNewPosts(filesAdded, githubToken, payload) {
           message: `[NEW BLOGG POST]: ${filePath}`,
           content: newContent
         };
-        octokit.repos.createOrUpdateFile(commitData);
+        octokit.repos.createOrUpdateFile(commitData).catch(e => {
+          core.setFailed(e);
+        });
       })
       .catch(e => {
         core.setFailed(e);

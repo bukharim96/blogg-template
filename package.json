@@ -4,7 +4,7 @@
   "description": "CRUD Actions for Blogg",
   "main": "index.js",
   "scripts": {
-    "quick-push": "git add . && git commit -m \"workflow update\" && git push",
+    "quick-push": "git fetch && git pull && git add . && git commit -m \"workflow update\" && git push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
