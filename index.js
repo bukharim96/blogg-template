@@ -39,9 +39,29 @@ function handleNewPosts(filesAdded, githubToken, payload) {
     // skip files not in /posts/
     if (!RegExp(/^posts\//).test(filePath)) continue;
 
-    const content = (await fs.readFile(`./${filePath}`)).toString();
+    fs.readFile(`./${filePath}`).then(data => {
+      const content = data.toString();
+      const builtContent = marked(content);
 
-    console.log(content);
+      const newFilePath = filePath // build/...html
+        .replace(/^posts\//, "build/")
+        .replace(/\.md$/, ".html");
+
+      // builtPosts[newFilePath] = marked(content);
+      const newContent = Buffer.from(marked(content)).toString("base64");
+
+      // update file
+      console.log(`${newFilePath}: ${newContent}`);
+      const commitData = {
+        owner: username,
+        repo: repo,
+        path: newFilePath,
+        // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
+        message: "[NEW BLOGG POST]",
+        content: newContent
+      };
+      octokit.repos.createOrUpdateFile(commitData);
+    });
 
     // octokit.repos
     //   .getContents({
@@ -57,25 +77,6 @@ function handleNewPosts(filesAdded, githubToken, payload) {
     // content will be base64 encoded
     // const content = Buffer.from(result.data.content, "base64").toString();
     // console.log(`    content: ${content}`);
-    // const newFilePath = filePath // build/...html
-    //   .replace(/^posts\//, "build/")
-    //   .replace(/\.md$/, ".html");
-
-    // // builtPosts[newFilePath] = marked(content);
-    // const newContent = Buffer.from(marked(content)).toString("base64");
-
-    // // update file
-    // console.log(`${newFilePath}: ${newContent}`);
-    // const commitData = {
-    //   owner: username,
-    //   repo: repo,
-    //   path: newFilePath,
-    //   // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
-    //   message: "[NEW BLOGG POST]",
-    //   content: newContent
-    // };
-
-    // octokit.repos.createOrUpdateFile(commitData);
   }
 }
 
