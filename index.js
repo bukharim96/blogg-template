@@ -46,7 +46,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     // content will be base64 encoded
     const content = Buffer.from(result.data.content, "base64").toString();
     const newFilePath = filePath // build/...html
-      .replace(/^posts\//, "build/")
+      .replace(/^posts\//, "")
       .replace(/\.md$/, ".html");
 
     builtMarkup[newFilePath] = marked(content);
