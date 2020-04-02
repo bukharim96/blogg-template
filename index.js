@@ -49,14 +49,14 @@ function handleNewPosts(filesAdded, githubToken, payload) {
       .then(data => {
         const content = data.toString();
         const builtContent = marked(content);
-        // const newContent = Buffer.from(builtContent).toString("base64");
+        const newContent = Buffer.from(builtContent).toString("base64");
         const newFilePath = filePath // build/...html
           .replace(/^posts\//, "build/")
           .replace(/\.md$/, ".html");
         // console.log(`    ${newFilePath}`);
         // console.log(`    ${newContent}`);
 
-        builtPosts[newFilePath] = builtContent;
+        builtPosts[newFilePath] = newContent;
 
         // // update file
         // const commitData = {
