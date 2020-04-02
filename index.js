@@ -66,7 +66,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       owner: username,
       repo: repo,
       title: "[NEW BLOGG POSTS]",
-      // body: "pull request description",
+      body: "pull request description",
       base: "master" /* optional: defaults to default branch */,
       head: "master",
       changes: {
