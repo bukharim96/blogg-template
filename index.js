@@ -1,24 +1,29 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 
-try {
-  const githubToken = core.getInput("github_token");
-  const filesAdded = core.getInput("files_added");
-  const filesModified = core.getInput("files_modified");
-  const filesRemoved = core.getInput("files_removed");
-  const payload = github.context.payload;
+async function run() {
+  try {
+    const githubToken = core.getInput("github_token");
+    const filesAdded = core.getInput("files_added");
+    const filesModified = core.getInput("files_modified");
+    const filesRemoved = core.getInput("files_removed");
+    const payload = github.context.payload;
 
-  if (filesAdded.length) handleNewPosts(filesAdded, githubToken, payload);
-  // if (filesModified.length)
-  // if (filesRemoved.length)
+    if (filesAdded.length)
+      await handleNewPosts(filesAdded, githubToken, payload);
+    // if (filesModified.length)
+    // if (filesRemoved.length)
 
-  //   core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payloadData = JSON.stringify(payload, undefined, 2);
-  console.log(`The event payload: ${payloadData}`);
-} catch (error) {
-  core.setFailed(error.message);
+    // core.setOutput("time", time);
+    // Get the JSON webhook payload for the event that triggered the workflow
+    // const payloadData = JSON.stringify(payload, undefined, 2);
+    // console.log(`The event payload: ${payloadData}`);
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
+
+run();
 
 async function handleNewPosts(filesAdded, githubToken, payload) {
   const octokit = new github.GitHub(githubToken);
