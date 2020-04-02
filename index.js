@@ -31,7 +31,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
   const octokit = new github.GitHub(githubToken);
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
-  const builtPosts = {};
+  let builtPosts = {};
 
   for (const i in filesAdded) {
     const filePath = filesAdded[i];
