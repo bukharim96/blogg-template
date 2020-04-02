@@ -56,7 +56,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
   };
 
   // push built posts
-  push(octokit, { owner, repo, base, head, changes })
+  push(octokit, { username, repo, base: "master", head: "master", changes })
     .then(result => {
       console.log(result);
     })
