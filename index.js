@@ -54,7 +54,7 @@ function handleNewPosts(filesAdded, githubToken, payload) {
           repo: repo,
           path: newFilePath,
           // sha: "ee61611dd820f9d275fe35f66216595b71c0535f",
-          message: "[NEW BLOGG POST]",
+          message: `[NEW BLOGG POST]: ${filePath}`,
           content: newContent
         };
         octokit.repos.createOrUpdateFile(commitData);
