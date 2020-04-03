@@ -17,14 +17,14 @@ jobs:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
         with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.BLOGG_ACCESS_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Blogg Post Manager
         uses: ./ # Uses an action in the root directory
         id: postManager
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BLOGG_ACCESS_TOKEN }}
           files_added: ${{ steps.file_changes.outputs.files_added }}
           files_modified: ${{ steps.file_changes.outputs.files_modified }}
           files_removed: ${{ steps.file_changes.outputs.files_removed }}

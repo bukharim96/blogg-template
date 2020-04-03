@@ -49,54 +49,50 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     const content = await fs.readFile(`./${filePath}`, "utf8");
     const builtContent = marked(content);
     const newContent = Buffer.from(builtContent).toString("base64");
-    const newFilePath = "./" + filePath // build/...html
+    const newFilePath = filePath // build/...html
       .replace(/^posts\//, "build/")
       .replace(/\.md$/, ".html");
     // console.log(`    ${newFilePath}`);
     // console.log(`    ${newContent}`);
 
-    // builtPosts[newFilePath] = newContent;
-
-    fs.writeFile(newFilePath, builtContent).catch(e =>
-      core.setFailed(e.message)
-    );
+    builtPosts[newFilePath] = newContent;
   }
 
-  // // Returns a normal Octokit PR response
-  // // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-  // console.log(
-  //   JSON.stringify(
-  //     {
-  //       owner: username,
-  //       repo: repo,
-  //       title: "[NEW BLOGG POSTS]",
-  //       body: "pull request description",
-  //       base: "master" /* optional: defaults to default branch */,
-  //       head: "master",
-  //       changes: {
-  //         files: builtPosts,
-  //         commit: "[NEW BLOGG POSTS]"
-  //       }
-  //     },
-  //     undefined,
-  //     2
-  //   )
-  // );
-  // octokit
-  //   .createPullRequest({
-  //     owner: username,
-  //     repo: repo,
-  //     title: "[NEW BLOGG POSTS]",
-  //     body: "pull request description",
-  //     base: "master" /* optional: defaults to default branch */,
-  //     head: "master",
-  //     changes: {
-  //       files: builtPosts,
-  //       commit: "[NEW BLOGG POSTS]"
-  //     }
-  //   })
-  //   .then(pr => console.log(pr.data.number))
-  //   .catch(e => console.error(e));
+  // Returns a normal Octokit PR response
+  // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
+  console.log(
+    JSON.stringify(
+      {
+        owner: username,
+        repo: repo,
+        title: "[NEW BLOGG POSTS]",
+        body: "pull request description",
+        base: "master" /* optional: defaults to default branch */,
+        head: "master",
+        changes: {
+          files: builtPosts,
+          commit: "[NEW BLOGG POSTS]"
+        }
+      },
+      undefined,
+      2
+    )
+  );
+  octokit
+    .createPullRequest({
+      owner: username,
+      repo: repo,
+      title: "[NEW BLOGG POSTS]",
+      body: "pull request description",
+      base: "master" /* optional: defaults to default branch */,
+      head: "master",
+      changes: {
+        files: builtPosts,
+        commit: "[NEW BLOGG POSTS]"
+      }
+    })
+    .then(pr => console.log(pr.data.number))
+    .catch(e => console.error(e));
 }
 
 // // update file
