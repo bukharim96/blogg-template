@@ -62,7 +62,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
   // Create new ref
   // HttpError: Reference already exists
-  const latestCommitSha = payload.before;
+  const latestCommitSha = payload.after;
   octokit.git
     .createRef({
       owner: username,
