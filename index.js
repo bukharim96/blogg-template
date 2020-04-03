@@ -91,7 +91,21 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
         commit: "[NEW BLOGG POSTS]"
       }
     })
-    .then(pr => console.log(pr.data.number))
+    .then(pr => {
+      // console.log(pr.data.number);
+      // HttpError: Reference does not exist
+      const latestCommitSha = pr.data.sha;
+      octokit.git
+        .updateRef({
+          owner: username,
+          repo: repo,
+          sha: latestCommitSha,
+          ref: `refs/heads/${head}`,
+          force: true
+        })
+        .then(result => console.log(result))
+        .catch(e => console.error(e));
+    })
     .catch(e => console.error(e));
 }
 
