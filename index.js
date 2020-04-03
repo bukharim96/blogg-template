@@ -19,8 +19,8 @@ async function run() {
 
     // core.setOutput("time", time);
     // Get the JSON webhook payload for the event that triggered the workflow
-    // const payloadData = JSON.stringify(payload, undefined, 2);
-    // console.log(`The event payload: ${payloadData}`);
+    const payloadData = JSON.stringify(payload, undefined, 2);
+    console.log(`The event payload: ${payloadData}`);
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -58,26 +58,21 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     builtPosts[newFilePath] = newContent;
   }
 
+  // Create new ref
+  // HttpError: Reference already exists
+  const latestCommitSha
+  octokit.git
+    .createRef({
+      owner: username,
+      repo: repo,
+      sha: latestCommitSha,
+      ref: `refs/heads/${head}`
+    })
+    .then(result => console.log(result))
+    .catch(e => console.error(e));
+
   // Returns a normal Octokit PR response
   // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
-  console.log(
-    JSON.stringify(
-      {
-        owner: username,
-        repo: repo,
-        title: "[NEW BLOGG POSTS]",
-        body: "pull request description",
-        base: "master" /* optional: defaults to default branch */,
-        head: "master",
-        changes: {
-          files: builtPosts,
-          commit: "[NEW BLOGG POSTS]"
-        }
-      },
-      undefined,
-      2
-    )
-  );
   octokit
     .createPullRequest({
       owner: username,
@@ -105,17 +100,6 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       //   })
       //   .then(result => console.log(result))
       //   .catch(e => console.error(e));
-
-      // HttpError: Reference already exists
-      octokit.git
-        .createRef({
-          owner: username,
-          repo: repo,
-          sha: latestCommitSha,
-          ref: `refs/heads/${head}`
-        })
-        .then(result => console.log(result))
-        .catch(e => console.error(e));
     })
     .catch(e => console.error(e));
 }
