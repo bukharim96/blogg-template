@@ -69,7 +69,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       title: "[NEW BLOGG POSTS]",
       body: "pull request description",
       base: "master" /* optional: defaults to default branch */,
-      head: "master",
+      head: `blogg-builds`,
       changes: {
         files: builtPosts,
         commit: "[NEW BLOGG POSTS]"
