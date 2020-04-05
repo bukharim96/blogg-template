@@ -48,14 +48,12 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
     const content = await fs.readFile(`./${filePath}`, "utf8");
     const builtContent = marked(content);
-    const newContent = Buffer.from(builtContent).toString("base64");
+    // const newContent = Buffer.from(builtContent).toString("base64");
     const newFilePath = filePath // build/...html
       .replace(/^posts\//, "build/")
       .replace(/\.md$/, ".html");
-    // console.log(`    ${newFilePath}`);
-    // console.log(`    ${newContent}`);
 
-    builtPosts[newFilePath] = newContent;
+    builtPosts[newFilePath] = builtContent;
   }
 
   if (!builtPosts) return;
