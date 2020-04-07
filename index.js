@@ -118,13 +118,12 @@ async function push(octokit, { owner, repo, base, head, changes }) {
   latestCommitSha = response.data.sha;
 
   // HttpError: Reference already exists
-  return await octokit.git
+  return octokit.git
     .createRef({
       owner,
       repo,
       sha: latestCommitSha,
-      ref: `refs/heads/${head}`,
-      force: true,
+      ref: `refs/heads/${head}`
     })
     .catch((e) => {
       // HttpError: Reference does not exist
