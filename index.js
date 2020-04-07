@@ -63,7 +63,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     owner: username,
     repo: repo,
     base: "master",
-    head: "blogg-public",
+    head: "master",
     changes: changes,
   })
     .then((result) => {
@@ -122,15 +122,15 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     owner,
     repo,
     sha: latestCommitSha,
-    ref: `refs/heads/${head}`,
+    ref: `heads/${head}`,
     force: true
   });
 
-  // HttpError: Reference already exists
-  return await octokit.git.createRef({
-    owner,
-    repo,
-    sha: latestCommitSha,
-    ref: `refs/heads/${head}`,
-  });
+  // // HttpError: Reference already exists
+  // return await octokit.git.createRef({
+  //   owner,
+  //   repo,
+  //   sha: latestCommitSha,
+  //   ref: `refs/heads/${head}`,
+  // });
 }
