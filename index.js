@@ -7,14 +7,14 @@ async function run() {
   try {
     const githubToken = core.getInput("github_token");
     const filesAdded = JSON.parse(core.getInput("files_added"));
-    // const filesModified = JSON.parse(core.getInput("files_modified"));
+    const filesModified = JSON.parse(core.getInput("files_modified"));
     // const filesRemoved = JSON.parse(core.getInput("files_removed"));
     const payload = github.context.payload;
 
     if (filesAdded.length)
       await handleNewPosts(filesAdded, githubToken, payload);
-    // if (filesModified.length)
-    //   await handleNewPosts(filesAdded, githubToken, payload);
+    if (filesModified.length)
+      await handleNewPosts(filesModified, githubToken, payload);
     // if (filesRemoved.length)
 
     // Get the JSON webhook payload for the event that triggered the workflow
@@ -43,7 +43,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
     const content = await fs.readFile(`./${filePath}`, "utf8");
     const builtContent = marked(content);
-    const newContent = Buffer.from(builtContent).toString("base64");
+    // const newContent = Buffer.from(builtContent).toString("base64");
     const newFilePath = filePath // public/...html
       .replace(/^posts\//, "public/")
       .replace(/\.md$/, ".html");
