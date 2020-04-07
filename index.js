@@ -137,7 +137,7 @@ async function push(octokit, { owner, repo, base, head, changes }) {
   response = await octokit.git.createTree({
     owner,
     repo,
-    base_tree: treeSha,
+    // base_tree: treeSha,
     tree: Object.keys(changes.files).map((path) => {
       // shut up the compiler...
       const mode = "100644";
