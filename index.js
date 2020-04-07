@@ -148,7 +148,7 @@ async function push(octokit, { owner, repo, base, head, changes }) {
       };
       // add new content else delete post
       if (content) treeNode.content = content;
-      else treeNode.content = "";
+      else treeNode.sha = null;
 
       console.log(JSON.stringify(treeNode, undefined, 2));
 
