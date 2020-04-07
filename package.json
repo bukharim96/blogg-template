@@ -21,7 +21,6 @@
   "dependencies": {
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
-    "marked": "^0.8.2",
-    "octokit-create-pull-request": "^1.4.2"
+    "marked": "^0.8.2"
   }
 }
