@@ -13,7 +13,8 @@ async function run() {
 
     if (filesAdded.length)
       await handleNewPosts(filesAdded, githubToken, payload);
-    // if (filesModified.length)
+    if (filesModified.length)
+      await handleNewPosts(filesAdded, githubToken, payload);
     // if (filesRemoved.length)
 
     // Get the JSON webhook payload for the event that triggered the workflow
@@ -47,15 +48,15 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       .replace(/^posts\//, "public/")
       .replace(/\.md$/, ".html");
 
-    builtPosts[newFilePath] = newContent;
-    // builtPosts[newFilePath] = builtContent;
+    // builtPosts[newFilePath] = newContent;
+    builtPosts[newFilePath] = builtContent;
   }
 
   if (!builtPosts) return;
 
   const changes = {
     files: builtPosts,
-    commit: "[NEW BLOGG POSTS]",
+    commit: "[NEW DEVIAN POSTS]",
   };
 
   // push built posts
@@ -123,7 +124,7 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     repo,
     sha: latestCommitSha,
     ref: `heads/${head}`,
-    force: true
+    force: true,
   });
 
   // // HttpError: Reference already exists
