@@ -142,11 +142,17 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     tree: Object.keys(changes.files).map((path) => {
       // shut up the compiler...
       const mode = "100644";
-      return {
+      const content = changes.files[path];
+      let treeNode = {
         path,
         mode,
         content: changes.files[path],
       };
+      // add new content else delete post
+      if (content) treeNode.content = content;
+      else treeNode.sha = null;
+
+      return treeNode;
     }),
   });
   const newTreeSha = response.data.sha;
