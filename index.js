@@ -12,10 +12,11 @@ async function run() {
     const payload = github.context.payload;
 
     if (filesAdded.length)
-      await handleNewPosts(filesAdded, githubToken, payload);
+      await handleNewOrModifiedPosts(filesAdded, githubToken, payload);
     if (filesModified.length)
-      await handleNewPosts(filesModified, githubToken, payload);
-    // if (filesRemoved.length)
+      await handleNewOrModifiedPosts(filesModified, githubToken, payload);
+    if (filesRemoved.length)
+      await handleRemovedPosts(filesModified, githubToken, payload);
 
     // Get the JSON webhook payload for the event that triggered the workflow
     // const payloadData = JSON.stringify(payload, undefined, 2);
@@ -27,16 +28,14 @@ async function run() {
 
 run();
 
-// @TODO: push multiple files in single request
-async function handleNewPosts(filesAdded, githubToken, payload) {
+async function handleNewOrModifiedPosts(files, githubToken, payload) {
   const octokit = new github.GitHub(githubToken);
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
-  const builtPosts = {};
+  const postFiles = {};
 
-  for (const i in filesAdded) {
-    const filePath = filesAdded[i];
-    console.log(filePath);
+  for (const i in files) {
+    const filePath = files[i];
 
     // skip files not in /posts/
     if (!RegExp(/^posts\//).test(filePath)) continue;
@@ -48,15 +47,58 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       .replace(/^posts\//, "public/")
       .replace(/\.md$/, ".html");
 
-    // builtPosts[newFilePath] = newContent;
-    builtPosts[newFilePath] = builtContent;
+    // postFiles[newFilePath] = newContent;
+    postFiles[newFilePath] = builtContent;
   }
 
-  if (!builtPosts) return;
+  if (!postFiles) return;
 
   const changes = {
-    files: builtPosts,
-    commit: "[NEW DEVIAN POSTS]",
+    files: postFiles,
+    commit: "[DEVIAN: UPDATE POSTS]",
+  };
+
+  // push built posts
+  push(octokit, {
+    owner: username,
+    repo: repo,
+    base: "master",
+    head: "master",
+    changes: changes,
+  })
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+}
+
+async function handleRemovedPosts(files, githubToken, payload) {
+  const octokit = new github.GitHub(githubToken);
+  const username = payload.head_commit.author.username;
+  const repo = payload.repository.name;
+  const postFiles = {};
+
+  for (const i in files) {
+    const filePath = files[i];
+    console.log(`deleting: ${filePath}`);
+
+    // skip files not in /posts/
+    if (!RegExp(/^posts\//).test(filePath)) continue;
+
+    const newFilePath = filePath // public/...html
+      .replace(/^posts\//, "public/")
+      .replace(/\.md$/, ".html");
+
+    postFiles[newFilePath] = null;
+  }
+
+  if (!postFiles) return;
+
+  const changes = {
+    files: postFiles,
+    commit: "[DEVIAN: REMOVE POSTS]",
   };
 
   // push built posts
