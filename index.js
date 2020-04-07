@@ -47,8 +47,8 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       .replace(/^posts\//, "public/")
       .replace(/\.md$/, ".html");
 
-    // builtPosts[newFilePath] = newContent;
-    builtPosts[newFilePath] = builtContent;
+    builtPosts[newFilePath] = newContent;
+    // builtPosts[newFilePath] = builtContent;
   }
 
   if (!builtPosts) return;
