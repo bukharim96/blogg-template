@@ -13,8 +13,8 @@ async function run() {
 
     if (filesAdded.length)
       await handleNewPosts(filesAdded, githubToken, payload);
-    if (filesModified.length)
-      await handleNewPosts(filesAdded, githubToken, payload);
+    // if (filesModified.length)
+    //   await handleNewPosts(filesAdded, githubToken, payload);
     // if (filesRemoved.length)
 
     // Get the JSON webhook payload for the event that triggered the workflow
