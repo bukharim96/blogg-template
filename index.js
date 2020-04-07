@@ -63,7 +63,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     owner: username,
     repo: repo,
     base: "master",
-    head: "blogg-public",
+    head: "master",
     changes: changes,
   })
     .then((result) => {
