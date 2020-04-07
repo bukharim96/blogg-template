@@ -121,18 +121,18 @@ async function push(octokit, { owner, repo, base, head, changes }) {
       force: true,
     })
     .then((result) => console.log(result))
-    .catch((e) => {
-      // HttpError: Reference already exists
-      return octokit.git
-        .createRef({
-          owner,
-          repo,
-          sha: latestCommitSha,
-          ref: `refs/heads/${head}`,
-        })
-        .then((result) => console.log(result))
-        .catch((err) => {
-          console.error(err);
-        });
-    });
+    // .catch((e) => {
+    //   // HttpError: Reference already exists
+    //   return octokit.git
+    //     .createRef({
+    //       owner,
+    //       repo,
+    //       sha: latestCommitSha,
+    //       ref: `refs/heads/${head}`,
+    //     })
+    //     .then((result) => console.log(result))
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // });
 }
