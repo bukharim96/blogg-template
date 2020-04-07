@@ -8,7 +8,7 @@ async function run() {
     const githubToken = core.getInput("github_token");
     const filesAdded = JSON.parse(core.getInput("files_added"));
     const filesModified = JSON.parse(core.getInput("files_modified"));
-    // const filesRemoved = JSON.parse(core.getInput("files_removed"));
+    const filesRemoved = JSON.parse(core.getInput("files_removed"));
     const payload = github.context.payload;
 
     if (filesAdded.length)
@@ -16,7 +16,7 @@ async function run() {
     if (filesModified.length)
       await handleNewOrModifiedPosts(filesModified, githubToken, payload);
     if (filesRemoved.length)
-      await handleRemovedPosts(filesModified, githubToken, payload);
+      await handleRemovedPosts(filesRemoved, githubToken, payload);
 
     // Get the JSON webhook payload for the event that triggered the workflow
     // const payloadData = JSON.stringify(payload, undefined, 2);
@@ -146,7 +146,6 @@ async function push(octokit, { owner, repo, base, head, changes }) {
       let treeNode = {
         path,
         mode,
-        content: changes.files[path],
       };
       // add new content else delete post
       if (content) treeNode.content = content;
