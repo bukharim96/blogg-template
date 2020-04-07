@@ -1,6 +1,22 @@
 <h1 id="post-read">Post read</h1>
 <p>TODO:</p>
-<pre><code class="language-javascript">console.log(process.env);</code></pre>
+<pre><code class="language-javascript">for (const i in files) {
+  const filePath = files[i];
+
+  console.log(filePath);
+
+  // skip files not in /posts/
+  if (!RegExp(/^posts\//).test(filePath)) continue;
+
+  const content = await fs.readFile(`./${filePath}`, &quot;utf8&quot;);
+  const builtContent = marked(content);
+  // const newContent = Buffer.from(builtContent).toString(&quot;base64&quot;);
+  const newFilePath = filePath // public/...html
+    .replace(/^posts\//, &quot;public/&quot;)
+    .replace(/\.md$/, &quot;.html&quot;);
+
+  postFiles[newFilePath] = builtContent;
+}</code></pre>
 <ul>
 <li>test this file</li>
 <li>test this file</li>
