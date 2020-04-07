@@ -60,12 +60,6 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 
   if (!builtPosts) return;
 
-  // const prBody = `Adding new posts to: ${JSON.stringify(
-  //   Object.keys(builtPosts),
-  //   undefined,
-  //   2
-  // )}`;
-
   const changes = {
     files: builtPosts,
     commit: "[NEW BLOGG POSTS]"
@@ -86,6 +80,12 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
       console.error(err);
     });
 
+  // const prBody = `Adding new posts to: ${JSON.stringify(
+  //   Object.keys(builtPosts),
+  //   undefined,
+  //   2
+  // )}`;
+
   // // Returns a normal Octokit PR response
   // // See https://octokit.github.io/rest.js/#octokit-routes-pulls-create
   // octokit
@@ -101,7 +101,7 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
   //       commit: "[NEW BLOGG POSTS]",
   //     },
   //   })
-  //   .then((pr) => {
+  //   .then(pr => {
   //     // const latestCommitSha = pr.data.sha;
   //     // // HttpError: Reference does not exist
   //     // octokit.git
@@ -145,25 +145,25 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
 // console.log(`    content: ${content}`);
 
 // {
-//   const changes = {
-//     files: builtPosts,
-//     commit: "[NEW BLOGG POSTS]"
-//   };
+//   // const changes = {
+//   //   files: builtPosts,
+//   //   commit: "[NEW BLOGG POSTS]"
+//   // };
 
-//   // push built posts
-//   push(octokit, {
-//     owner: username,
-//     repo: repo,
-//     base: "master",
-//     head: "master",
-//     changes: changes
-//   })
-//     .then(result => {
-//       console.log(result);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//     });
+//   // // push built posts
+//   // push(octokit, {
+//   //   owner: username,
+//   //   repo: repo,
+//   //   base: "master",
+//   //   head: "master",
+//   //   changes: changes
+//   // })
+//   //   .then(result => {
+//   //     console.log(result);
+//   //   })
+//   //   .catch(err => {
+//   //     console.error(err);
+//   //   });
 // }
 
 async function push(octokit, { owner, repo, base, head, changes }) {
@@ -179,7 +179,7 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     owner,
     repo,
     sha: base,
-    per_page: 1,
+    per_page: 1
   });
   let latestCommitSha = response.data[0].sha;
   const treeSha = response.data[0].commit.tree.sha;
@@ -188,15 +188,15 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     owner,
     repo,
     base_tree: treeSha,
-    tree: Object.keys(changes.files).map((path) => {
+    tree: Object.keys(changes.files).map(path => {
       // shut up the compiler...
       const mode = "100644";
       return {
         path,
         mode,
-        content: changes.files[path],
+        content: changes.files[path]
       };
-    }),
+    })
   });
   const newTreeSha = response.data.sha;
 
@@ -205,7 +205,7 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     repo,
     message: changes.commit,
     tree: newTreeSha,
-    parents: [latestCommitSha],
+    parents: [latestCommitSha]
   });
   latestCommitSha = response.data.sha;
 
@@ -215,7 +215,7 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     repo,
     sha: latestCommitSha,
     ref: `refs/heads/${head}`,
-    force: true,
+    force: true
   });
 
   // HttpError: Reference already exists
