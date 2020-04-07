@@ -42,12 +42,12 @@ async function handleNewOrModifiedPosts(files, githubToken, payload) {
 
     const content = await fs.readFile(`./${filePath}`, "utf8");
     const builtContent = marked(content);
-    // const newContent = Buffer.from(builtContent).toString("base64");
+    const newContent = Buffer.from(builtContent).toString("base64");
     const newFilePath = filePath // public/...html
       .replace(/^posts\//, "public/")
       .replace(/\.md$/, ".html");
 
-    postFiles[newFilePath] = builtContent;
+    postFiles[newFilePath] = newContent;
   }
 
   if (!postFiles) return;
@@ -141,11 +141,16 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     tree: Object.keys(changes.files).map((path) => {
       // shut up the compiler...
       const mode = "100644";
-      return {
+      const content = changes.files[path];
+      let treeNode = {
         path,
         mode,
-        content: changes.files[path],
       };
+      // add new content else delete post
+      if (content) treeNode.sha = content;
+      else treeNode.sha = null;
+
+      return treeNode;
     }),
   });
   const newTreeSha = response.data.sha;

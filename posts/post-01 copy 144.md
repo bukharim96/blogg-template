@@ -4,6 +4,14 @@ TODO:
 
 ```javascript
 console.log(process.env);
+console.log(process.env);
+console.log(process.env);
+console.log(process.env);
+console.log(process.env);
+console.log(process.env);
+console.log(process.env);
+console.log(process.env);
+console.log(process.env);
 ```
 
 - test this file
