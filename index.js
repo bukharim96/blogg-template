@@ -132,5 +132,6 @@ async function push(octokit, { owner, repo, base, head, changes }) {
     repo,
     sha: latestCommitSha,
     ref: `refs/heads/${head}`,
+    force: true
   });
 }
