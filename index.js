@@ -63,9 +63,15 @@ async function handleNewPosts(filesAdded, githubToken, payload) {
     owner: username,
     repo: repo,
     base: "master",
-    head: "master",
+    head: "blogg-public",
     changes: changes,
-  });
+  })
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 async function push(octokit, { owner, repo, base, head, changes }) {
@@ -112,27 +118,19 @@ async function push(octokit, { owner, repo, base, head, changes }) {
   latestCommitSha = response.data.sha;
 
   // HttpError: Reference does not exist
-  octokit.git
-    .updateRef({
-      owner,
-      repo,
-      sha: latestCommitSha,
-      ref: `refs/heads/${head}`,
-      force: true,
-    })
-    .then((result) => console.log(result))
-    .catch((e) => {
-      // HttpError: Reference already exists
-      return octokit.git
-        .createRef({
-          owner,
-          repo,
-          sha: latestCommitSha,
-          ref: `refs/heads/${head}`,
-        })
-        .then((result) => console.log(result))
-        .catch((err) => {
-          console.error(err);
-        });
-    });
+  return await octokit.git.updateRef({
+    owner,
+    repo,
+    sha: latestCommitSha,
+    ref: `refs/heads/${head}`,
+    force: true
+  });
+
+  // HttpError: Reference already exists
+  return await octokit.git.createRef({
+    owner,
+    repo,
+    sha: latestCommitSha,
+    ref: `refs/heads/${head}`,
+  });
 }
