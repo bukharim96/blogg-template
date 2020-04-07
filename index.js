@@ -30,11 +30,11 @@ run();
 
 // @TODO: push multiple files in single request
 async function handleNewPosts(filesAdded, githubToken, payload) {
-  // const octokit = new github.GitHub(githubToken);
-  const CPR_Octokit = github.GitHub.plugin(createPullRequest);
-  const octokit = new CPR_Octokit({
-    auth: githubToken,
-  });
+  const octokit = new github.GitHub(githubToken);
+  // const CPR_Octokit = github.GitHub.plugin(createPullRequest);
+  // const octokit = new CPR_Octokit({
+  //   auth: githubToken,
+  // });
   const username = payload.head_commit.author.username;
   const repo = payload.repository.name;
   const builtPosts = {};
